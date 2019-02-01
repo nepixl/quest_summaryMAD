@@ -3,10 +3,15 @@ import requests
 import time
 import locale
 import configparser
+import pymysql
 
 config = configparser.ConfigParser()
 config.read('config.ini')
 
+dbip = config.get('CONFIG', 'DBIP')
+dbuser = config.get('CONFIG', 'DBUSER')
+dbpw = config.get('CONFIG', 'DBPW')
+dbname = config.get('CONFIG', 'DBNAME')
 token = config.get('CONFIG', 'TOKEN')
 chat_id = config.get('CONFIG', 'CHATID')
 mapmode = config.get('CONFIG', 'MAPMODE')
@@ -91,13 +96,13 @@ candystring = ''
 for i in range(0, len(stardust)):
     if len(starList[i]) == 0:
         continue
-    starstring += '\n🌟 ' + stardust[i] + ' <b>Stardust:</b>\n'
+    starstring += '\nðŸŒŸ ' + stardust[i] + ' <b>Sternenstaub:</b>\n'
     for k in starList[i]:
         starstring += k
 for i in range(0, len(rarecandy)):
     if len(candyList[i]) == 0:
         continue
-    candystring += '\n🍬 ' + rarecandy[i] + ' <b>Rare Candies:</b>\n'
+    candystring += '\nðŸ¬ ' + rarecandy[i] + ' <b>Sonderbonbons:</b>\n'
     for k in candyList[i]:
         candystring += k
 for i in range(0, len(pokemonIds)):
@@ -105,13 +110,29 @@ for i in range(0, len(pokemonIds)):
     if pokeList[i]:
         text = text.replace('$' + pokemonIds[i] + '$', '')
         continue
-    text = text.replace('$' + pokemonIds[i] + '$', '<i>Was not found today.</i>\n')
+    text = text.replace('$' + pokemonIds[i] + '$', '<i>Heute nichts gefunden.</i>\n')
+	
+# Open database connection
+db = pymysql.connect(dbip,dbuser,dbpw,dbname)
+
+# prepare a cursor object
+cursor = db.cursor()
+
+# count pokestop in DB.
+cursor.execute("SELECT COUNT(*) FROM pokestop")
+
+# Fetch a single row, call it amountpokestops.
+amountpokestops = cursor.fetchone()
+
+# Done. disconnect
+db.close()
 
 text = text.replace('$rarecandy$', candystring)
 text = text.replace('$stardust$', starstring)
-text = text.replace('$amount$', str(len(data)))
+text = text.replace('$amountquests$', str(len(data)))
+text = text.replace('$amountpokestops$', "%s" % amountpokestops)
 locale.setlocale(locale.LC_TIME, localeSetting)
-text = text.replace('$date', time.strftime("%A, the %e.%m.%Y"))
+text = text.replace('$date', time.strftime("%A, %e.%m.%Y"))
 text = text.replace('&', '%26amp;')
 
 
