@@ -3,9 +3,7 @@ import requests
 import time
 import locale
 import configparser
-import re
 import pymysql
-
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -25,7 +23,6 @@ rarecandy = config.get('CONFIG', 'RARECANDY')
 stardust = config.get('CONFIG', 'STARDUST')
 user = config.get('CONFIG', 'USER')
 passw = config.get('CONFIG', 'PASS')
-notfound = config.get('CONFIG', 'NOTFOUND')
 
 pokemonIds = pokemonIds.split(',')
 stardust = stardust.split(',')
@@ -99,25 +96,21 @@ candystring = ''
 for i in range(0, len(stardust)):
     if len(starList[i]) == 0:
         continue
-    starstring += '\nðŸŒŸ ' + stardust[i] + ' <b>Stardust:</b>\n'
+    starstring += '\nðŸŒŸ ' + stardust[i] + ' <b>Sternenstaub:</b>\n'
     for k in starList[i]:
         starstring += k
 for i in range(0, len(rarecandy)):
     if len(candyList[i]) == 0:
         continue
-    candystring += '\nðŸ¬ ' + rarecandy[i] + ' <b>Rare Candies:</b>\n'
+    candystring += '\nðŸ¬ ' + rarecandy[i] + ' <b>Sonderbonbons:</b>\n'
     for k in candyList[i]:
         candystring += k
 for i in range(0, len(pokemonIds)):
-    
+
     if pokeList[i]:
         text = text.replace('$' + pokemonIds[i] + '$', '')
         continue
-    if notfound == 'false':
-        match = re.search(r"((.*\n){1})\$" + pokemonIds[i] +r"\$", text)
-        text = text.replace(str(match[0]), '')
-    else:
-        text = text.replace('$' + pokemonIds[i] + '$', '<i>Was not found today.</i>\n')
+    text = text.replace('$' + pokemonIds[i] + '$', '<i>Heute nichts gefunden.</i>\n')
 	
 # Open database connection
 db = pymysql.connect(dbip,dbuser,dbpw,dbname)
@@ -131,7 +124,7 @@ cursor.execute("SELECT COUNT(*) FROM pokestop")
 # Fetch a single row, call it amountpokestops.
 amountpokestops = cursor.fetchone()
 
-# Done. disconnect
+# disconnect from server
 db.close()
 
 text = text.replace('$rarecandy$', candystring)
@@ -141,6 +134,7 @@ text = text.replace('$amountpokestops$', "%s" % amountpokestops)
 locale.setlocale(locale.LC_TIME, localeSetting)
 text = text.replace('$date', time.strftime("%A, %e.%m.%Y"))
 text = text.replace('&', '%26amp;')
+
 
 def bot_sendtext(bot_message):
     ### Send text message
