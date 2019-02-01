@@ -1,5 +1,5 @@
 <b>Field research</b>
-🗓️ $date, ($amount$ of XXX Stops scanned)
+🗓️ $date, ($amountquests$ of $amountpokestops$ Stops scanned)
 
 <i>You can write whatever you want in here. Formatting is telegram HTML (see https://core.telegram.org/bots/api).</i>
 
