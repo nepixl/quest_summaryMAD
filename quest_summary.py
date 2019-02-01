@@ -3,7 +3,9 @@ import requests
 import time
 import locale
 import configparser
+import re
 import pymysql
+
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -102,15 +104,19 @@ for i in range(0, len(stardust)):
 for i in range(0, len(rarecandy)):
     if len(candyList[i]) == 0:
         continue
-    candystring += '\nðŸ¬ ' + rarecandy[i] + ' <b>Rare Candy:</b>\n'
+    candystring += '\nðŸ¬ ' + rarecandy[i] + ' <b>Rare Candies:</b>\n'
     for k in candyList[i]:
         candystring += k
 for i in range(0, len(pokemonIds)):
-
+    
     if pokeList[i]:
         text = text.replace('$' + pokemonIds[i] + '$', '')
         continue
-    text = text.replace('$' + pokemonIds[i] + '$', '<i>Nothing found today.</i>\n')
+    if notfound == 'false':
+        match = re.search(r"((.*\n){1})\$" + pokemonIds[i] +r"\$", text)
+        text = text.replace(str(match[0]), '')
+    else:
+        text = text.replace('$' + pokemonIds[i] + '$', '<i>Was not found today.</i>\n')
 	
 # Open database connection
 db = pymysql.connect(dbip,dbuser,dbpw,dbname)
