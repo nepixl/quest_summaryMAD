@@ -25,6 +25,7 @@ rarecandy = config.get('CONFIG', 'RARECANDY')
 stardust = config.get('CONFIG', 'STARDUST')
 user = config.get('CONFIG', 'USER')
 passw = config.get('CONFIG', 'PASS')
+notfound = config.get('CONFIG', 'NOTFOUND')
 
 pokemonIds = pokemonIds.split(',')
 stardust = stardust.split(',')
