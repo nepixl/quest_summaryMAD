@@ -135,7 +135,6 @@ locale.setlocale(locale.LC_TIME, localeSetting)
 text = text.replace('$date', time.strftime("%A, %e.%m.%Y"))
 text = text.replace('&', '%26amp;')
 
-
 def bot_sendtext(bot_message):
     ### Send text message
     send_text = 'https://api.telegram.org/bot' + token + '/sendMessage?chat_id=' + chat_id + '&parse_mode=html&text=' + bot_message
