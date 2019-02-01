@@ -96,13 +96,13 @@ candystring = ''
 for i in range(0, len(stardust)):
     if len(starList[i]) == 0:
         continue
-    starstring += '\nðŸŒŸ ' + stardust[i] + ' <b>Sternenstaub:</b>\n'
+    starstring += '\nðŸŒŸ ' + stardust[i] + ' <b>Stardust:</b>\n'
     for k in starList[i]:
         starstring += k
 for i in range(0, len(rarecandy)):
     if len(candyList[i]) == 0:
         continue
-    candystring += '\nðŸ¬ ' + rarecandy[i] + ' <b>Sonderbonbons:</b>\n'
+    candystring += '\nðŸ¬ ' + rarecandy[i] + ' <b>Rare Candy:</b>\n'
     for k in candyList[i]:
         candystring += k
 for i in range(0, len(pokemonIds)):
@@ -110,7 +110,7 @@ for i in range(0, len(pokemonIds)):
     if pokeList[i]:
         text = text.replace('$' + pokemonIds[i] + '$', '')
         continue
-    text = text.replace('$' + pokemonIds[i] + '$', '<i>Heute nichts gefunden.</i>\n')
+    text = text.replace('$' + pokemonIds[i] + '$', '<i>Nothing found today.</i>\n')
 	
 # Open database connection
 db = pymysql.connect(dbip,dbuser,dbpw,dbname)
