@@ -39,24 +39,6 @@ silverpinapList = []
 starList = []
 pokeList = []
 
-# Open database connection
-db = pymysql.connect(dbip,dbuser,dbpw,dbname)
-
-# prepare a cursor object
-cursor = db.cursor()
-
-# count pokestop in DB.
-cursor.execute("SELECT COUNT(*) FROM pokestop")
-
-# Fetch a single row, call it amountpokestops.
-amountpokestops = cursor.fetchone()
-
-# Count questpokemon in db
-cursor.execute("select COUNT(*) from trs_quest where not quest_pokemon_id = 0")
-countpkm = cursor.fetchone()
-
-# Done. disconnect
-db.close()
 
 for k in rarecandy:
     candyList.append([])
@@ -78,7 +60,35 @@ else:
 data = json_input.json()
 
 if madlanguage == "":
-	print('Missing madlanguage in config.ini.', end='', flush=True)
+	print('Missing madlanguage in config.ini\n', end='', flush=True)
+	exit()
+	
+if mapmode == "":
+	print('Missing mapmode in config.ini\n', end='', flush=True)
+	exit()
+	
+if dbuser == "":
+	print('Missing some databasesettings in config.ini\n', end='', flush=True)
+	exit()
+	
+# Open database connection
+db = pymysql.connect(dbip,dbuser,dbpw,dbname)
+
+# prepare a cursor object
+cursor = db.cursor()
+
+# count pokestop in DB.
+cursor.execute("SELECT COUNT(*) FROM pokestop")
+
+# Fetch a single row, call it amountpokestops.
+amountpokestops = cursor.fetchone()
+
+# Count questpokemon in db
+cursor.execute("select COUNT(*) from trs_quest where not quest_pokemon_id = 0")
+countpkm = cursor.fetchone()
+
+# Done. disconnect
+db.close()
 	
 if madlanguage == "DE":
     if mapmode == "CUSTOM":
