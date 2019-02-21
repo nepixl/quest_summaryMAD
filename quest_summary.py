@@ -18,10 +18,10 @@ mapmode = config.get('CONFIG', 'MAPMODE')
 mapurl = config.get('CONFIG', 'MAPURL')
 madminurl = config.get('CONFIG', 'MADMINURL')
 localeSetting = config.get('CONFIG', 'LOCALE')
-language = config.get('CONFIG', 'LANGUAGE')
+madlanguage = config.get('CONFIG', 'MADLANGUAGE')
 pokemonIds = config.get('CONFIG', 'POKEMON')
 rarecandy = config.get('CONFIG', 'RARECANDY')
-silverberry = config.get('CONFIG', 'SILVERBERRY')
+silverpinap = config.get('CONFIG', 'silverpinap')
 stardust = config.get('CONFIG', 'STARDUST')
 user = config.get('CONFIG', 'USER')
 passw = config.get('CONFIG', 'PASS')
@@ -29,13 +29,13 @@ passw = config.get('CONFIG', 'PASS')
 pokemonIds = pokemonIds.split(',')
 stardust = stardust.split(',')
 rarecandy = rarecandy.split(',')
-silverberry = silverberry.split(',')
+silverpinap = silverpinap.split(',')
 
 text_file = open('text.txt', 'r', encoding='utf-8')
 text = text_file.read()
 
 candyList = []
-silverList = []
+silverpinapList = []
 starList = []
 pokeList = []
 
@@ -60,10 +60,13 @@ db.close()
 
 for k in rarecandy:
     candyList.append([])
-for k in silverberry:
-    silverList.append([])
+	
+for k in silverpinap:
+    silverpinapList.append([])
+	
 for k in stardust:
     starList.append([])
+	
 for k in pokemonIds:
     pokeList.append(False)
 
@@ -74,7 +77,10 @@ else:
 
 data = json_input.json()
 
-if language == "DE":
+if madlanguage == "":
+	print('Missing madlanguage in config.ini.', end='', flush=True)
+	
+if madlanguage == "DE":
     if mapmode == "CUSTOM":
         link = ''
         for d in data:
@@ -86,10 +92,10 @@ if language == "DE":
                         candyList[rarecandy.index(d['item_amount'])].append(link)
 					
                 if d['item_type'] == "Silberne Sananabeere":
-                    if str(d['item_amount']) in silverberry:
+                    if str(d['item_amount']) in silverpinap:
                         link = '<a href=%22' + mapurl + '/?lat=' + str(d['latitude']) + str('%26lon=') + str(
                         d['longitude']) + '%26zoom=16%22>' + d['name'] + '</a>\n'
-                        silverList[silverberry.index(d['item_amount'])].append(link)
+                        silverpinapList[silverpinap.index(d['item_amount'])].append(link)
 		
             elif d['quest_reward_type'] == 'Sternenstaub':
                 if str(d['item_amount']) in stardust:
@@ -115,10 +121,10 @@ if language == "DE":
                         candyList[rarecandy.index(d['item_amount'])].append(link)		
 					
                 elif d['item_type'] == "Silberne Sananabeere":
-                    if str(d['item_amount']) in silverberry:
+                    if str(d['item_amount']) in silverpinap:
                         link = '<a href=%22http://www.google.com/maps/place/' + str(d['latitude']) + str(',') + str(
                         d['longitude']) + '%22>' + d['name'] + '</a>\n'
-                        silverList[rarecandy.index(d['item_amount'])].append(link)
+                        silverpinapList[silverpinap.index(d['item_amount'])].append(link)
 				
                 elif d['quest_reward_type'] == 'Sternenstaub':
                     if str(d['item_amount']) in stardust:
@@ -132,7 +138,7 @@ if language == "DE":
                     text = text.replace('$' + d['pokemon_id'] + '$', link)
                     pokeList[pokemonIds.index(d['pokemon_id'])] = True
 				
-if language == "EN":
+if madlanguage == "EN":
     if mapmode == "CUSTOM":
         link = ''
         for d in data:
@@ -144,10 +150,10 @@ if language == "EN":
                         candyList[rarecandy.index(d['item_amount'])].append(link)
 					
                 elif d['item_type'] == "Silver Pinap":
-                    if str(d['item_amount']) in silverberry:
+                    if str(d['item_amount']) in silverpinap:
                         link = '<a href=%22' + mapurl + '/?lat=' + str(d['latitude']) + str('%26lon=') + str(
                         d['longitude']) + '%26zoom=16%22>' + d['name'] + '</a>\n'
-                        silverList[silverberry.index(d['item_amount'])].append(link)
+                        silverpinapList[silverpinap.index(d['item_amount'])].append(link)
 		
                 elif d['quest_reward_type'] == 'Stardust':
                     if str(d['item_amount']) in stardust:
@@ -173,10 +179,10 @@ if language == "EN":
                             candyList[rarecandy.index(d['item_amount'])].append(link)		
 					
                 elif d['item_type'] == "Silver Pinap":
-                    if str(d['item_amount']) in silverberry:
+                    if str(d['item_amount']) in silverpinap:
                             link = '<a href=%22http://www.google.com/maps/place/' + str(d['latitude']) + str(',') + str(
                             d['longitude']) + '%22>' + d['name'] + '</a>\n'
-                            silverList[rarecandy.index(d['item_amount'])].append(link)
+                            silverpinapList[silverpinap.index(d['item_amount'])].append(link)
 				
                 elif d['quest_reward_type'] == 'Stardust':
                     if str(d['item_amount']) in stardust:
@@ -191,9 +197,9 @@ if language == "EN":
 
 starstring = ''
 candystring = ''
-silverstring = ''
+silverpinapstring = ''
 
-if language == "DE":
+if madlanguage == "DE":
     for i in range(0, len(stardust)):
         if len(starList[i]) == 0:
             continue
@@ -208,12 +214,12 @@ if language == "DE":
         for k in candyList[i]:
             candystring += k
 		
-    for i in range(0, len(silverberry)):
-        if len(silverList[i]) == 0:
+    for i in range(0, len(silverpinap)):
+        if len(silverpinapList[i]) == 0:
             continue
-        silverstring += '\n🍈¬ ' + silverberry[i] + ' <b>Silberne Sananabeere:</b>\n'
-        for k in silverList[i]:
-            silverstring += k
+        silverpinapstring += '\n🍈¬ ' + silverpinap[i] + ' <b>Silberne Sananabeere:</b>'
+        for k in silverpinapList[i]:
+            silverpinapstring += k
 		
     for i in range(0, len(pokemonIds)):
         if pokeList[i]:
@@ -221,7 +227,7 @@ if language == "DE":
             continue
         text = text.replace('$' + pokemonIds[i] + '$', '<i>Heute nicht gefunden</i>\n')
 	
-elif language == "EN":
+elif madlanguage == "EN":
     for i in range(0, len(stardust)):
         if len(starList[i]) == 0:
             continue
@@ -236,12 +242,12 @@ elif language == "EN":
         for k in candyList[i]:
             candystring += k
 		
-    for i in range(0, len(silverberry)):
-        if len(silverList[i]) == 0:
+    for i in range(0, len(silverpinap)):
+        if len(silverpinapList[i]) == 0:
             continue
-        silverstring += '\n🍈¬ ' + silverberry[i] + ' <b>Silver Pinap:</b>\n'
-        for k in silverList[i]:
-            silverstring += k
+        silverpinapstring += '\n🍈¬ ' + silverpinap[i] + ' <b>Silver Pinap:</b>\n'
+        for k in silverpinapList[i]:
+            silverpinapstring += k
 		
     for i in range(0, len(pokemonIds)):
         if pokeList[i]:
@@ -251,7 +257,7 @@ elif language == "EN":
 	
 text = text.replace('$rarecandy$', candystring)
 text = text.replace('$stardust$', starstring)
-text = text.replace('$silverberry$', silverstring)
+text = text.replace('$silverpinap$', silverpinapstring)
 text = text.replace('$amount$', str(len(data)))
 text = text.replace('$amountquests$', str(len(data)))
 text = text.replace('$amountpokestops$', "%s" % amountpokestops)
