@@ -1,7 +1,9 @@
 [CONFIG]
 
+## Set your Telegramtoken
 TOKEN: yourtelegramTokenHere
 
+## Set your ChatID
 CHATID: yourTelegramChatIDHere
 
 ## SQL Connect
@@ -13,14 +15,16 @@ DBPW: secured_pw
 ## Where you want to show your Pokéstoplocation? CUSTOM = on your RM or Monocle | GMAPS = show on Google Maps
 MAPMODE: CUSTOM
 
-## Leave MAPURL empty if you show your Pokéstoplocation on GMAPS
+## Leave MAPURL empty if you set GMAPS
 MAPURL: https://map.yourdomainhere.com
 
 MADMINURL: http://localhost:5000
 
+## Set your MADMIN-Language (If MADMIN is in DE, use DE | If MADMIN is in EN, use EN)
+MADLANGUAGE: DE
+
 ## If you use the basic auth from MADmin, fill this. Leave it empty if you dont use it.
 USER: USERNAME
-
 PASS: PASSWORD
 
 ## Change this to change the weekdate language. Be careful, Windows has other locales than Linux. See https://docs.microsoft.com/en-us/cpp/c-runtime-library/language-strings?view=vs-2017
@@ -34,3 +38,6 @@ STARDUST: 1000,1500
 
 ## Amount of rare candy to be listed
 RARECANDY: 3,2,1
+
+## Amount of silver pinap to be listed
+SILVERPINAP: 5,4,3,2,1
