@@ -126,7 +126,7 @@ if madlanguage == "DE":
                         d['longitude']) + '%22>' + d['name'] + '</a>\n'
                         silverpinapList[silverpinap.index(d['item_amount'])].append(link)
 				
-                elif d['quest_reward_type'] == 'Sternenstaub':
+            elif d['quest_reward_type'] == 'Sternenstaub':
                     if str(d['item_amount']) in stardust:
                         link = '<a href=%22http://www.google.com/maps/place/' + str(d['latitude']) + str(',') + str(
                         d['longitude']) + '%22>' + d['name'] + '</a>\n'
@@ -217,7 +217,7 @@ if madlanguage == "DE":
     for i in range(0, len(silverpinap)):
         if len(silverpinapList[i]) == 0:
             continue
-        silverpinapstring += '\n🍈¬ ' + silverpinap[i] + ' <b>Silberne Sananabeere:</b>'
+        silverpinapstring += '\n🍈¬ ' + silverpinap[i] + ' <b>Silberne Sananabeere:</b>\n'
         for k in silverpinapList[i]:
             silverpinapstring += k
 		
@@ -238,14 +238,14 @@ elif madlanguage == "EN":
     for i in range(0, len(rarecandy)):
         if len(candyList[i]) == 0:
             continue
-        candystring += '\n🍬¬ ' + rarecandy[i] + ' <b>Rare Candies:</b>\n'
+        candystring += '\n🍬¬ ' + rarecandy[i] + ' <b>Rare Candie(s):</b>\n'
         for k in candyList[i]:
             candystring += k
 		
     for i in range(0, len(silverpinap)):
         if len(silverpinapList[i]) == 0:
             continue
-        silverpinapstring += '\n🍈¬ ' + silverpinap[i] + ' <b>Silver Pinap:</b>\n'
+        silverpinapstring += '\n🍈¬ ' + silverpinap[i] + ' <b>Silver Pinapberrie(s):</b>\n'
         for k in silverpinapList[i]:
             silverpinapstring += k
 		
